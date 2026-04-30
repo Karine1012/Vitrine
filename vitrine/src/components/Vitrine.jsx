@@ -5,9 +5,15 @@ import styles from './Vitrine.module.css'
 export default function Vitrine() {
   const [produtos, setProdutos] = useState([])
   const [carregando, setCarregando] = useState(true)
+function getCategoria() {
+  const urlParams = new URLSearchParams(window.location.search)
+  return urlParams.get('categoria') || 'smartphones'
+}
+const categoria = getCategoria()
 
-  useEffect(() => {
-    fetch('https://dummyjson.com/products')
+ useEffect(() => {
+    const url = `https://dummyjson.com/products/category/${categoria}`
+    fetch(url)
       .then(resposta => resposta.json())
       .then(dados => {
         setProdutos(dados.products)
@@ -18,6 +24,7 @@ export default function Vitrine() {
         setCarregando(false)
       })
   }, [])
+
 
 
   if (carregando) { 
